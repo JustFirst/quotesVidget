@@ -1,0 +1,75 @@
+.border-radius(@radius)
+{
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.flex()
+{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex-directon(@direction) when (@direction = 1)
+{
+flex-direction: row;
+}
+
+.flex-directon(@direction) when (@direction = 2)
+{
+  flex-direction: row-reverse;
+}
+
+.flex-directon(@direction) when (@direction = 3)
+{
+  flex-direction: column;
+}
+
+.flex-direction(@direction) when (@direction = 4)
+{
+  flex-direction: column-reverse;
+}
+
+.justify-content
+{
+  justify-content:space-between;
+}
+
+.flex-grow(@grow)
+{
+  flex-grow: @grow;
+}
+
+.container
+{
+  width: 100px;
+.flex();
+  .flex-direction(4);
+}
+
+.flex-shrink(@shrink)
+{
+  flex-shrink: @shrink;
+  -webkit-flex-shrink: @shrink;
+}
+
+.elems
+{
+  border: solid 2px black;
+  .border-radius(5px);
+}
+
+.A
+{
+  .flex-grow(0.2);
+}
+
+.B
+{
+  .flex-shrink(0.2);
+}
