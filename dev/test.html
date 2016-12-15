@@ -6,64 +6,102 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="css\normalize.css">
     <link rel="stylesheet" type="text/css" href="css\styles.css">
+
     <script type="text/javascript">
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes", true);
-        xhr.send();
+        /*
+       var request = $.ajax({
+            async: false,
+            type: "GET",
+            url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
+            dataType: "json"
+        });
 
+
+            var fparsedRequest = function () {
+                var parsedRequest = JSON.parse(request.responseText, function (key, value) {
+                    switch (key) {
+                        case "r":
+                            return +value;
+
+                        case "dt":
+                            return new Date(value);
+
+                        default:
+                            return value;
+                    }
+                });
+                alert(parsedRequest);
+            };
+
+        request.onload =alert(fparsedRequest());
+*/
     </script>
-    <script src="js/lib/backbone-min.js"></script>
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/underscore-min.js"></script>
-
 </head>
 
 <body>
-<div class="container">
-    <div class="tool-box">
 
-        <div class="row tool-box-header">
+<script type="text/template" id="row-template">
+    <div class="row">
 
-            <div class="alias alias-header row-content">
-                <span class="span-value header-span">
-
-                </span>
-            </div>
-
-            <div class="quote quote-header row-content">
-                <span class="span-value header-span">
-
-                </span>
-            </div>
-
-            <div class="incr incr-header row-content">
-                <span class="span-value header-span">
-
-                </span>
-            </div>
-
+        <div class="alias row-content">
+            <span class="span-value">
+                <%=s%>
+            </span>
         </div>
 
-        <div class="row">
+        <div class="quote row-content">
+            <span class="span-value">
+                <%=r%>
+            </span>
+        </div>
 
-            <div class="alias row-content">
-                <span class="span-value">
+        <div class="incr row-content">
+            <span class="span-value">
+                <%=p%>
+            </span>
+        </div>
+    </div>
+</script>
+
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/underscore-min.js"></script>
+    <script src="js/lib/backbone-min.js"></script>
+
+    <script src="js/models/datalayout.js"></script>
+    <script src="js/coll/rowcol.js"></script>
+    <script src="js/views/rowcollectionView.js"></script>
+    <script src="js/views/viewRow.js"></script>
+    <script src="js/app.js"></script>
+
+
+<div class="container">
+
+    <div class="row tool-box-header">
+
+        <div class="alias alias-header row-content">
+                <span class="header-span">
 
                 </span>
-            </div>
+        </div>
 
-            <div class="quote row-content">
-                <span class="span-value">
-
-                </span>
-            </div>
-
-            <div class="incr row-content">
-                <span class="span-value">
+        <div class="quote quote-header row-content">
+                <span class="span-value header-span">
 
                 </span>
-            </div>
+        </div>
+
+        <div class="incr incr-header row-content">
+                <span class="span-value header-span">
+
+                </span>
+        </div>
+
+    </div>
+    <div class="tool-box">
+
+
+
 
         </div>
 

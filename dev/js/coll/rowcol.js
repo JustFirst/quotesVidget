@@ -1,9 +1,8 @@
+"use strict";
 var app = app || {};
 
-app.rowCollection = Backbone.Collection.extend({
-    model: app.rowModel,
+app.RowCollection = Backbone.Collection.extend({
 
-    getData: function () {
+    model: app.RowModel
 
-    }
 });

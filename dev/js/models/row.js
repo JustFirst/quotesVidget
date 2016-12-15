@@ -1,9 +1,10 @@
+"use strict";
 var app = app || {};
 
-app.rowModel = Backbone.Model.extend({
+app.RowModel = Backbone.Model.extend({
     defaults: {
-        alias: 'None',
-        quote: 1,
-        incrememnt:0.1
-    }
+        s: "None",
+        r: 1,
+        p:0.1
+    },
 });

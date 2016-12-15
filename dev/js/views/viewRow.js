@@ -1,11 +1,18 @@
+"use strict";
 var app = app || {};
 
-var rowView = Backbone.View.extend({
+app.RowView = Backbone.View.extend({
 
-    el: '.row',
+    tagName: "div",
 
-    initialize: function () {
-        el
+    className: "row",
+
+    template: _.template($("#row-template").html()),
+
+    render: function () {
+        this.$el.html(this.template(this.model.attributes));
+
+        return this;
+
     }
-
 });
