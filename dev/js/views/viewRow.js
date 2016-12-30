@@ -1,18 +1,21 @@
-"use strict";
-var app = app || {};
+(function (global) {
+    "use strict";
 
-app.RowView = Backbone.View.extend({
+    var app = global.app || (global.app = {});
 
-    tagName: "div",
+    app.RowView = Backbone.View.extend({
 
-    className: "row",
+        tagName: "div",
 
-    template: _.template($("#row-template").html()),
+        className: "row",
 
-    render: function () {
-        this.$el.html(this.template(this.model.attributes));
+        template: _.template($("#row-template").html()),
 
-        return this;
+        render: function () {
+            this.$el.append(this.template(this.model.attributes));
 
-    }
-});
+            return this;
+
+        }
+    });
+})(this);

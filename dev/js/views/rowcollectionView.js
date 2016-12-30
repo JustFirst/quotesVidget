@@ -1,33 +1,33 @@
 /**
  * Created by dmitriy.shvakov on 15.12.2016.
  */
-"use strict";
+(function (global) {
+    
+    "use strict";
 
-var app = app || {};
+    var app = global.app || (global.app = {});
 
-app.RowCollectionView = Backbone.View.extend({
-    tagName:"div",
+    app.RowCollectionView = Backbone.View.extend({
 
-    className: "tool-box",
+        el: "div.tool-box",
 
-    initialize: function(quotes) {
-        this.collection = new app.RowCollectionView( quotes );
-        this.render();
-    },
+        initialize: function() {
+            this.collection = new app.RowCollection();
+            this.listenTo(this.collection, "reset", this.render());
+        },
 
-    render: function () {
-        this.collection.each(function (item) {
-            this.renderRow(item);
-        }, this);
-    },
+        render: function () {
+            this.collection.each(function ( item) {
+                this.renderRow(item);
+            }, this);
+        },
 
-    renderRow:function (item) {
-        var rowView = new app.RowView({
-            model: item
-        });
-        this.$el.append(rowView.render().el);
+        renderRow:function (item) {
+            var rowView = new app.RowView({
+                model: item
+            });
+            this.$el.append(rowView.render().el);
 
-    }
-
-
-});
+        }
+    });
+})(this);

@@ -7,36 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css\normalize.css">
     <link rel="stylesheet" type="text/css" href="css\styles.css">
 
-    <script type="text/javascript">
 
-        /*
-       var request = $.ajax({
-            async: false,
-            type: "GET",
-            url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
-            dataType: "json"
-        });
-
-
-            var fparsedRequest = function () {
-                var parsedRequest = JSON.parse(request.responseText, function (key, value) {
-                    switch (key) {
-                        case "r":
-                            return +value;
-
-                        case "dt":
-                            return new Date(value);
-
-                        default:
-                            return value;
-                    }
-                });
-                alert(parsedRequest);
-            };
-
-        request.onload =alert(fparsedRequest());
-*/
-    </script>
 </head>
 
 <body>
@@ -58,21 +29,12 @@
 
         <div class="incr row-content">
             <span class="span-value">
-                <%=p%>
+                <%=sp%>
             </span>
         </div>
     </div>
 </script>
 
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/underscore-min.js"></script>
-    <script src="js/lib/backbone-min.js"></script>
-
-    <script src="js/models/datalayout.js"></script>
-    <script src="js/coll/rowcol.js"></script>
-    <script src="js/views/rowcollectionView.js"></script>
-    <script src="js/views/viewRow.js"></script>
-    <script src="js/app.js"></script>
 
 
 <div class="container">
@@ -103,9 +65,29 @@
 
 
 
-        </div>
-
     </div>
+
 </div>
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/underscore-min.js"></script>
+<script src="js/lib/backbone-min.js"></script>
+
+<script src="js/models/row.js"></script>
+<script src="js/models/datalayout.js"></script>
+<script src="js/views/viewRow.js"></script>
+<script src="js/coll/rowcol.js"></script>
+<script src="js/views/rowcollectionView.js"></script>
+<script src="js/app.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+</script>
 </body>
 </html>

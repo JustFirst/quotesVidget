@@ -1,3 +1,4 @@
 node_modules
 .idea
 normalize.css
+/nbproject/private/
