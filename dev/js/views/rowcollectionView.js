@@ -13,10 +13,11 @@
 
         initialize: function() {
             this.collection = new app.RowCollection();
-            this.listenTo(this.collection, "reset", this.render());
+            this.listenTo(this.collection, "reset", this.render);
         },
 
         render: function () {
+            this.$el.empty();
             this.collection.each(function ( item) {
                 this.renderRow(item);
             }, this);
@@ -27,7 +28,6 @@
                 model: item
             });
             this.$el.append(rowView.render().el);
-
         }
     });
 })(this);

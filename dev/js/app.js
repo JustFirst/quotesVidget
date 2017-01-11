@@ -3,7 +3,15 @@
  */
 (function (global) {
     "use strict";
+    
+    
+    function bind(func, context) {
+      return function() {
+        return func.apply(context, arguments);
+      };
+    };
+
     var app = global.app || (global.app = {});
-    var quotes = new app.RowCollectionView();
-    setInterval(quotes.collection.getData,2000);
+    var view = new app.RowCollectionView();
+    setInterval(bind(view.collection.getData, view.collection),2000);
 })(this);
