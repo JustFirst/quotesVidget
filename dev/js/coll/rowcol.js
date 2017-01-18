@@ -1,15 +1,26 @@
 (function (global) {
     "use strict";
 
-var app = global.app || (global.app = {});
+    var app = global.app || (global.app = {});
+    var $ = global.$ || (global.$ = {});
+    var Backbone = global.Backbone || (global.Backbone = {});
     app.RowCollection = Backbone.Collection.extend({
                 
         model: app.RowModel,
                 
-        addModels: function(models){
-            this.reset(models);
-        },
+        getFirstData: function(){
 
+            var firstRequest = $.ajax({
+                async: true,
+                type: "GET",
+                url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
+                dataType: "json",
+                data: {symbols: "EURUSD,XAUUSD"}
+            }).done(function(data, textStatus, jqXHR){this.reset(jqXHR.responseJSON.Result.QuotesTrade);}.bind(this));
+
+            return firstRequest;
+        }, 
+        
         getData: function(){
 
             var request = $.ajax({
@@ -18,9 +29,10 @@ var app = global.app || (global.app = {});
                 url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
                 dataType: "json",
                 data: {symbols: "EURUSD,XAUUSD"}
-            }).done(function(data, textStatus, jqXHR){this.addModels(jqXHR.responseJSON.Result.QuotesTrade);}.bind(this));
-
+            }).done(function(data, textStatus, jqXHR){this.set(jqXHR.responseJSON.Result.QuotesTrade);}.bind(this));
+            
             return request;
+
         }
 
 

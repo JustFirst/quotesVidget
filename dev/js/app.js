@@ -8,5 +8,6 @@
 
     var app = global.app || (global.app = {});
     var view = new app.RowCollectionView();
+    view.collection.getFirstData();
     setInterval(view.collection.getData.bind(view.collection),2000);
 })(this);

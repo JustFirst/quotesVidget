@@ -2,8 +2,12 @@
     "use strict";
 
     var app = global.app || (global.app = {});
+    var Backbone = global.Backbone || (global.Backbone = {});
 
     app.RowModel = Backbone.Model.extend({
+        
+        idAttribute: "s",
+        
         defaults: {
             s: "None",
             r: 1,
