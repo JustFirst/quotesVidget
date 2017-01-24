@@ -4,10 +4,8 @@
 (function (global) {
     "use strict";
     
-    
-
     var app = global.app || (global.app = {});
     var view = new app.RowCollectionView();
-    view.collection.getFirstData();
+    view.collection.getData();
     setInterval(view.collection.getData.bind(view.collection),2000);
 })(this);

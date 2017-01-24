@@ -14,7 +14,6 @@
         initialize: function() {
             this.collection = new app.RowCollection();
             this.collection.once("reset", this.render, this);
-            this.collection.listenTo(this.collection, "set", this.refreshCollection);
         },
         
         render: function () {
