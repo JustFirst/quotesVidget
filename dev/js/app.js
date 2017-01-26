@@ -5,7 +5,7 @@
     "use strict";
     
     var app = global.app || (global.app = {});
-    var view = new app.RowCollectionView();
+    var view = new app.InstrumentCollectionView();
     view.collection.getData();
     setInterval(view.collection.getData.bind(view.collection),2000);
 })(this);

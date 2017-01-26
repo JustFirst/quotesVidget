@@ -2,14 +2,18 @@
     "use strict";
 
     var app = global.app || (global.app = {});
-    var $ = global.$ || (global.$ = {});
-    var Backbone = global.Backbone || (global.Backbone = {});
+    var $ = global.$;
+    var Backbone = global.Backbone;
     var previousRequest;
     var dfd;
-    
-    app.RowCollection = Backbone.Collection.extend({
+
+    app.InstrumentCollection = Backbone.Collection.extend({
             
-        model: app.RowModel,
+        model: app.InstrumentModel,
+                      
+        initialize: function (models, options) {
+            this.options = options;
+        },
                         
         getData: function(){
             
@@ -27,7 +31,7 @@
                 type: "GET",
                 url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
                 dataType: "json",
-                data: {symbols: "EURUSD,XAUUSD"}
+                data: {symbols: this.options.symbols}
             }).done(function(data, textStatus, jqXHR){
             dfd.resolve();    
             if (this.length > 0) {

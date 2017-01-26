@@ -2,11 +2,11 @@
     "use strict";
 
     var app = global.app || (global.app = {});
-    var $ = global.$ || (global.$ = {});
-    var _ = global._ || (global._ = {});
+    var $ = global.$;
+    var _ = global._;
     var Backbone = global.Backbone || (global.Backbone = {});
 
-    app.RowView = Backbone.View.extend({
+    app.InstrumentView = Backbone.View.extend({
 
         tagName: "div",
 
@@ -24,9 +24,7 @@
         
         render: function () {
             this.$el.append(this.template(this.model.attributes));
-
             return this;
-
         }
     });
 })(this);

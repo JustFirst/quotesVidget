@@ -2,9 +2,9 @@
     "use strict";
 
     var app = global.app || (global.app = {});
-    var Backbone = global.Backbone || (global.Backbone = {});
+    var Backbone = global.Backbone;
 
-    app.RowModel = Backbone.Model.extend({
+    app.InstrumentModel = Backbone.Model.extend({
         
         idAttribute: "s",
         
