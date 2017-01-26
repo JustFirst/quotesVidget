@@ -39,6 +39,9 @@
                 }
                 else {
                     this.reset(jqXHR.responseJSON.Result.QuotesTrade);
+                    for (var i = 0; i < this.length; i++) {
+                        this.models[i].set("firstRate", jqXHR.responseJSON.Result.QuotesTrade[i].r);
+                    }
                 }
             }.bind(this)).fail(dfd.reject);
             

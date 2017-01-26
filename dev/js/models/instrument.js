@@ -6,12 +6,25 @@
 
     app.InstrumentModel = Backbone.Model.extend({
         
+        initialize: function(){
+            this.listenTo(this, "change:r", this.countChange);
+        },
+        
         idAttribute: "s",
         
         defaults: {
             s: "None",
             r: 1,
-            sp:0.1
-        }
+            ch:"-"
+        },
+        
+        countChange: function () {
+            var rate = this.get("r");
+            var firstRate = this.get("firstRate");
+            var change = (firstRate - rate)/firstRate * -100;
+            this.set("ch", change.toFixed(2));
+        },
+        
+        firstRate:0,
     });
 })(this);
