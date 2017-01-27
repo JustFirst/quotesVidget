@@ -23,7 +23,7 @@
             var rate = this.get("r");
             var firstRate = this.get("firstRate");
             var change = (rate - firstRate)/firstRate * 100;
-            this.set("ch", change.toFixed(2));
+            this.set("ch", change);
         }
     });
 })(this);

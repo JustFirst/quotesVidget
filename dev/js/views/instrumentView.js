@@ -24,11 +24,11 @@
         },
         
         refreshChange: function () {
-            $(".change", this.$el).html(this.model.get("ch"));
+            $(".change", this.$el).html(this.model.get("ch").toFixed(2));
         },
         
         render: function () {
-            this.$el.append(this.template(this.model.attributes));
+            this.$el.append(this.template(this.model.attributes), {variable:"instrument"});
             return this;
         }
     });
