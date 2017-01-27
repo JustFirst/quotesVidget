@@ -4,7 +4,7 @@
     var app = global.app || (global.app = {});
     var $ = global.$;
     var _ = global._;
-    var Backbone = global.Backbone || (global.Backbone = {});
+    var Backbone = global.Backbone;
 
     app.InstrumentView = Backbone.View.extend({
 
@@ -15,11 +15,16 @@
         template: _.template($("#row-template").html()),
         
         initialize: function () {
-            this.listenTo(this.model, "change", this.refresh);
+            this.listenTo(this.model, "change:r", this.refreshRate);
+            this.listenTo(this.model, "change:ch", this.refreshChange);
         },
         
-        refresh: function () {
-            this.$el.html(this.template(this.model.attributes));
+        refreshRate: function () {
+            $(".rate", this.$el).html(this.model.get("r"));
+        },
+        
+        refreshChange: function () {
+            $(".change", this.$el).html(this.model.get("ch"));
         },
         
         render: function () {

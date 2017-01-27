@@ -20,7 +20,7 @@
             }
             else
             {
-                return {symbols:"EURUSD,GBPUSD,AUDNZD"};
+                return {symbols:"EURUSD,GBPUSD,AUDNZD,EURJPY"};
             }
         },
 
