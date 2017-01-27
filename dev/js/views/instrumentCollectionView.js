@@ -16,11 +16,11 @@
             var symbolsRegExp = /[?&]symbols=((?:[A-Za-z0-9]+,?)+)&?/gi;
             var symbols = symbolsRegExp.exec(decodeURIComponent(urlParameters));
             if ( symbols !== null) {
-                return {symbols:symbols[1]}
+                return {symbols:symbols[1]};
             }
             else
             {
-                return {symbols:"EURUSD,GBPUSD,AUDNZD"}
+                return {symbols:"EURUSD,GBPUSD,AUDNZD"};
             }
         },
 

@@ -13,18 +13,17 @@
         idAttribute: "s",
         
         defaults: {
+            firstRate: 0,
             s: "None",
             r: 1,
-            ch:"-"
+            ch: 0
         },
         
         countChange: function () {
             var rate = this.get("r");
             var firstRate = this.get("firstRate");
-            var change = (firstRate - rate)/firstRate * -100;
+            var change = (rate - firstRate)/firstRate * 100;
             this.set("ch", change.toFixed(2));
-        },
-        
-        firstRate:0,
+        }
     });
 })(this);

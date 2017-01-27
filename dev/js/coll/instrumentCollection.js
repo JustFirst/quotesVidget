@@ -33,8 +33,8 @@
                 dataType: "json",
                 data: {symbols: this.options.symbols}
             }).done(function(data, textStatus, jqXHR){
-            dfd.resolve();    
-            if (this.length > 0) {
+                dfd.resolve();
+                if (this.length > 0) {
                     this.set(jqXHR.responseJSON.Result.QuotesTrade);
                 }
                 else {
@@ -48,7 +48,5 @@
             previousRequest = request;
             return dfd.promise();
         }
-
-
     });
 })(this);
