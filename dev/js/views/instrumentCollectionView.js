@@ -26,7 +26,7 @@
 
         initialize: function() {
             this.collection = new app.InstrumentCollection(null, this.getParams());
-            this.collection.once("reset", this.render, this);
+            this.listenToOnce(this.collection, "reset", this.render);
         },
         
         render: function () {

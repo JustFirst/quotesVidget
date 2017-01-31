@@ -7,7 +7,7 @@
     app.InstrumentModel = Backbone.Model.extend({
         
         initialize: function(){
-            this.listenTo(this, "change:r", this.countChange);
+            this.on("change:r", this.countChange, this);
         },
         
         idAttribute: "s",

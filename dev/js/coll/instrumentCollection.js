@@ -26,14 +26,13 @@
             
             dfd = $.Deferred();
             
-            var request = $.ajax({
+            previousRequest = $.ajax({
                 async: true,
                 type: "GET",
                 url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
                 dataType: "json",
                 data: {symbols: this.options.symbols}
             }).done(function(data, textStatus, jqXHR){
-                dfd.resolve();
                 if (this.length > 0) {
                     this.set(jqXHR.responseJSON.Result.QuotesTrade);
                 }
@@ -43,9 +42,9 @@
                         this.models[i].set("firstRate", jqXHR.responseJSON.Result.QuotesTrade[i].r);
                     }
                 }
+                dfd.resolve();                
             }.bind(this)).fail(dfd.reject);
             
-            previousRequest = request;
             return dfd.promise();
         }
     });
