@@ -8,10 +8,11 @@ requirejs.config({
     }
 });
 
-define(["views/instrumentCollectionView"], function (InstrumentCollectionView){
+define(["require","views/instrumentCollectionView"], function (require, InstrumentCollectionView){
+    var $ = require("jquery");
     var view = new InstrumentCollectionView();
-    view.collection.updateData(view.collection.checkData(view.collection.getData()));
+    $.when(view.collection.getData()).done(function (ajaxResult) {view.collection.updateData(ajaxResult)});
     setInterval(function () {
-        view.collection.updateData(this.checkData(this.getData()));
+        $.when(view.collection.getData()).done(function (ajaxResult) {view.collection.updateData(ajaxResult)});
     }.bind(view.collection),2000);
 });
