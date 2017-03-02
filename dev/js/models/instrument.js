@@ -1,13 +1,12 @@
-(function (global) {
+define(function (require) {
     "use strict";
+    var $ = require("jquery"),
+    Backbone = require("backbone"),
+    InstrumentModel = Backbone.Model.extend({
 
-    var app = global.app || (global.app = {});
-    var Backbone = global.Backbone;
-
-    app.InstrumentModel = Backbone.Model.extend({
-        
         initialize: function(){
             this.on("change:r", this.countChange, this);
+            this.on("all", this.trackRequests, window);
         },
         
         idAttribute: "s",
@@ -24,6 +23,7 @@
             var firstRate = this.get("firstRate");
             var change = (rate - firstRate)/firstRate * 100;
             this.set("ch", change);
-        }
+        }        
     });
-})(this);
+    return InstrumentModel;
+});

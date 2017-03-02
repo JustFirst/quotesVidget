@@ -1,13 +1,8 @@
-/**
- * Created by dmitriy.shvakov on 15.12.2016.
- */
-(function (global) {
-    
+define(["require", "coll/instrumentCollection", "views/instrumentView"], function (require, InstrumentCollection, InstrumentView) {
     "use strict";
-
-    var app = global.app || (global.app = {});
-    var Backbone = global.Backbone;
-    app.InstrumentCollectionView = Backbone.View.extend({
+    
+    var Backbone = require("backbone");
+    var InstrumentCollectionView = Backbone.View.extend({
 
         el: "div.tool-box",
 
@@ -25,7 +20,7 @@
         },
 
         initialize: function() {
-            this.collection = new app.InstrumentCollection(null, this.getParams());
+            this.collection = new InstrumentCollection(null, this.getParams());
             this.listenToOnce(this.collection, "reset", this.render);
         },
         
@@ -36,10 +31,11 @@
         },
         
         renderInstrument:function (item) {
-            var instrumentView = new app.InstrumentView({
+            var instrumentView = new InstrumentView({
                 model: item
             });
             this.$el.append(instrumentView.render().el);
         }
     });
-})(this);
+        return InstrumentCollectionView;
+});

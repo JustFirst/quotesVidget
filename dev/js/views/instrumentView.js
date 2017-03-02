@@ -1,12 +1,9 @@
-(function (global) {
+define(function (require) {
     "use strict";
-
-    var app = global.app || (global.app = {});
-    var $ = global.$;
-    var _ = global._;
-    var Backbone = global.Backbone;
-
-    app.InstrumentView = Backbone.View.extend({
+    var $ = require("jquery"),
+    _ = require("underscore"),
+    Backbone = require("backbone");
+    var InstrumentView = Backbone.View.extend({
 
         tagName: "div",
 
@@ -32,4 +29,5 @@
             return this;
         }
     });
-})(this);
+    return InstrumentView;
+});
