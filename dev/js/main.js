@@ -9,10 +9,16 @@ requirejs.config({
 });
 
 define(["require","views/instrumentCollectionView"], function (require, InstrumentCollectionView){
-    var $ = require("jquery");
+    
     var view = new InstrumentCollectionView();
-    view.collection.getData().done(function (ajaxResult) {view.collection.updateData(ajaxResult)});
+    
+    view.collection.checkRequest().then(function(data) {
+        view.collection.updateData(data);
+    });
+    
     setInterval(function () {
-        view.collection.getData().done(function (ajaxResult) {view.collection.updateData(ajaxResult)});
+        view.collection.checkRequest().then(function(data) {
+            view.collection.updateData(data);
+        });
     }.bind(view.collection),2000);
 });

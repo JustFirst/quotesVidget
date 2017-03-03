@@ -2,18 +2,21 @@ define(["require", "models/instrument"], function (require, InstrumentModel) {
     "use strict";
     var $ = require("jquery"),
     Backbone = require("backbone"),
-    previousRequest,
-    dfd;
-    
+    dfd,
+    previousRequest;
     
     var InstrumentCollection = Backbone.Collection.extend({
             
         model: InstrumentModel,
                       
         initialize: function (models, options) {
-            this.options = options;
+            if (options !== undefined) {
+                this.options = options;    
+            }
+            else
+                this.options = "";
         },
-                        
+        
         updateData: function(ajaxResult){
             if (this.length > 0) {
                 this.set(ajaxResult);
@@ -27,12 +30,6 @@ define(["require", "models/instrument"], function (require, InstrumentModel) {
         },
         
         getData: function () {
-            if (dfd !== undefined) {
-                if (dfd.state() === "pending") {
-                    dfd.reject();
-                    previousRequest.abort();
-                }
-            }    
             dfd = $.Deferred();
             previousRequest = $.ajax({
                 async: true,
@@ -40,12 +37,21 @@ define(["require", "models/instrument"], function (require, InstrumentModel) {
                 url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
                 dataType: "json",
                 data: {symbols: this.options.symbols}
-            }).done(function (data, textStatus, jqXHR){
-                dfd.resolve(jqXHR.responseJSON.Result.QuotesTrade);
+            }).done(function (data) {
+                dfd.resolve(data.Result.QuotesTrade);
             }).fail(dfd.reject);
-            
             return dfd.promise();
-        }, 
+        },
+        
+        checkRequest: function(ajax) {
+            if (dfd !== undefined) {
+                if (dfd.state() === "pending") {
+                    dfd.reject();
+                    previousRequest.abort();
+                }
+            }
+            return this.getData();
+        }
     });
     return InstrumentCollection;
 });
