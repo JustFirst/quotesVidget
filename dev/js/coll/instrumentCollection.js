@@ -2,21 +2,22 @@ define(["require", "models/instrument"], function (require, InstrumentModel) {
     "use strict";
     var $ = require("jquery"),
     Backbone = require("backbone"),
+    _ = require("underscore"),
     dfd,
     previousRequest;
-    
+
     var InstrumentCollection = Backbone.Collection.extend({
-            
+
         model: InstrumentModel,
-                      
+
         initialize: function (models, options) {
             if (options !== undefined) {
-                this.options = options;    
+                this.options = options;
             }
             else
                 this.options = "";
         },
-        
+
         updateData: function(ajaxResult){
             if (this.length > 0) {
                 this.set(ajaxResult);
@@ -28,21 +29,32 @@ define(["require", "models/instrument"], function (require, InstrumentModel) {
                 }
             }
         },
-        
+
+        getInterval: function (firstDate, secondDate) {
+
+        },
+
         getData: function () {
             dfd = $.Deferred();
+            var fileReader = new FileReader();
+            var str = fileReader.readAsText(`../instruments.json`);
+            console.log(str);
+            /*
             previousRequest = $.ajax({
                 async: true,
                 type: "GET",
-                url: "https://gaterest.fxclub.com/Real/RestApi/Quotes/CurrentQuotes",
-                dataType: "json",
-                data: {symbols: this.options.symbols}
-            }).done(function (data) {
-                dfd.resolve(data.Result.QuotesTrade);
-            }).fail(dfd.reject);
-            return dfd.promise();
+                url: "../parser/instruments.json+?callback=",
+                dataType: "jsonp",
+                jsonpCallback: "callback"
+                //data: {symbols: this.options.symbols}
+            })*/
+
         },
-        
+
+        callback: function () {
+            console.log(json)
+        },
+
         checkRequest: function(ajax) {
             if (dfd !== undefined) {
                 if (dfd.state() === "pending") {

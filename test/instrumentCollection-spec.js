@@ -41,7 +41,7 @@ define(function (require) {
          this.secondFakeAjax = $.Deferred();
             this.secondFakeAjax.resolve(true);
         });
-        it("should reject prending request", function(done) {
+        it("should reject pending request", function(done) {
             var testCollection = new InstrumentCollection(null);
             spyOn(testCollection, "getData").and.returnValues(this.fakeAjax, this.secondFakeAjax);
             var promise1 = testCollection.checkRequest();

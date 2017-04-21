@@ -1,4 +1,6 @@
-
+//out: styles.css
+//sourcemap: false
+//compress: false
 @color: #f0f2f4;
 
 body
@@ -72,7 +74,7 @@ body
 }
 
 .justify-content {
-    
+
 }
 
 .flexbox
@@ -103,15 +105,21 @@ body
 }
 
 @media only screen and (min-width: 320px){
-    
+
+    .content {
+        .flexbox;
+        .flex-direction(1);
+        .align-items(2);
+    }
+
     .elem-width {
         max-width: 100%;
     }
-    
-    .container {
+
+    .quotes-container {
         .elem-width;
     }
-    
+
     .row {
         .flexbox;
         .elem-width;
@@ -122,14 +130,14 @@ body
             cursor: pointer;
         }
     }
-    
+
     .tool-box-header
     {
         &:hover {
             cursor: default;
         }
     }
-    
+
     .tool-box {
         .flex-direction(3);
         .elem-width;
@@ -162,7 +170,7 @@ body
     .center-label;
 }
 
-.container {
+.quotes-container {
     background-color: @toolbox-color;
     width: @tool-widht + 0px;
 }

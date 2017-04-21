@@ -1,6 +1,5 @@
 define(["require", "coll/instrumentCollection", "views/instrumentView"], function (require, InstrumentCollection, InstrumentView) {
     "use strict";
-    
     var Backbone = require("backbone");
     var InstrumentCollectionView = Backbone.View.extend({
 
