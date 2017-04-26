@@ -18,25 +18,22 @@
     </div>
 </script>
 <script type="text/template" id="row-template">
-    <div class="row">
+    <div class="alias row-content">
+        <span class="span-value">
+            <%=instrument.s%>
+        </span>
+    </div>
 
-        <div class="alias row-content">
-            <span class="span-value">
-                <%=instrument.s%>
-            </span>
-        </div>
+    <div class="rate row-content">
+        <span class="span-value">
+            <%=instrument.r%>
+        </span>
+    </div>
 
-        <div class="rate row-content">
-            <span class="span-value">
-                <%=instrument.r%>
-            </span>
-        </div>
-
-        <div class="change row-content">
-            <span class="span-value">
-                <%=instrument.ch%>
-            </span>
-        </div>
+    <div class="change row-content">
+        <span class="span-value">
+            <%=instrument.ch%>
+        </span>
     </div>
 </script>
 <div class="content">

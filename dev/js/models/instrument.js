@@ -6,15 +6,14 @@ define(function (require) {
     InstrumentModel = Backbone.Model.extend({
 
         initialize: function(){
-            this.on("change:r", this.countChange, this);
+            //this.on("change:r", this.countChange, this);
             this.on("all", this.trackRequests, window);
-            this.chart();
+            //this.chart();
         },
 
         idAttribute: "s",
 
         defaults: {
-            firstRate: 0,
             s: "None",
             r: 1,
             ch: 0
@@ -26,7 +25,7 @@ define(function (require) {
             var change = (rate - firstRate)/firstRate * 100;
             this.set("ch", change);
         }
-        
+
     });
     return InstrumentModel;
 });

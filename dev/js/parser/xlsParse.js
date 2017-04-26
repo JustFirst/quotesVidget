@@ -34,7 +34,7 @@
             instrums.instruments.push(instrument);
         }
         json = JSON.stringify(instrums);
-        fs.writeFile(path + "/" + "instruments.json", json, "utf8", (err) => {
+        fs.writeFile(path + "/" + "instruments.js", "define(function () { return " + json + ";});", "utf8", (err) => {
             if (err) throw err;
             console.log('The file has been saved!');
         });
