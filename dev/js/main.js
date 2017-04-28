@@ -3,10 +3,18 @@ requirejs.config({
     baseUrl: "js",
     paths: {
         chartjs: "lib/Chart",
+        zoomPlugin: "lib/chartjs-plugin-zoom",
         jquery: "lib/jquery.min",
         underscore: "lib/underscore-min",
         backbone: "lib/backbone-min",
-        wreqr: "lib/backbone.wreqr"
+        wreqr: "lib/backbone.wreqr",
+        hammerjs: "lib/hammer.min"
+    },
+
+    shim: {
+        zoomPlugin: {
+            deps: ["chartjs", "hammerjs"]
+        }
     }
 });
 
@@ -20,7 +28,7 @@ define(function (require){
         view.collection.updateData(data);
     });
 
-    chart = new ChartInstane();
+    new ChartInstane();
 
     setInterval(function () {
         view.collection.checkRequest().then(function(data) {

@@ -48,6 +48,11 @@ define(function (require) {
                 for (var i = 0; i < data.instruments.length; i++) {
                     if (k > data.instruments[i].values.length - 1) {
                         k++;
+                        currentQuotes.push({
+                            s: data.instruments[i].name,
+                            r: data.instruments[i].values[data.instruments[i].values.length - 1].close,
+                            ch: data.instruments[i].values[data.instruments[i].values.length - 1].close - data.instruments[i].values[data.instruments[i].values.length - 1].open
+                        });
                         continue;
                     }
                     currentQuotes.push({
