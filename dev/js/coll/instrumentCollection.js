@@ -15,9 +15,6 @@ define(function (require) {
         model: InstrumentModel,
 
         initialize: function (models, options) {
-            instrumentChannel.reqres.setHandler("exportInitialData", function () {
-                return data.instruments[0].values;
-            });
             instrumentChannel.vent.on("active", function (modelId) {
                 this.setActiveModel(modelId);
             }.bind(this));
@@ -38,6 +35,7 @@ define(function (require) {
 
             else {
                 this.reset(ajaxResult);
+                instrumentChannel.vent.trigger("active", this.models[0].id);
             }
         },
 
@@ -51,15 +49,27 @@ define(function (require) {
                         currentQuotes.push({
                             s: data.instruments[i].name,
                             r: data.instruments[i].values[data.instruments[i].values.length - 1].close,
-                            ch: data.instruments[i].values[data.instruments[i].values.length - 1].close - data.instruments[i].values[data.instruments[i].values.length - 1].open
+                            ch: data.instruments[i].values[data.instruments[i].values.length - 1].close - data.instruments[i].values[data.instruments[i].values.length - 1].open,
+                            prevCh: data.instruments[i].values[data.instruments[i].values.length - 2].close - data.instruments[i].values[data.instruments[i].values.length - 2].open
                         });
                         continue;
                     }
-                    currentQuotes.push({
-                        s: data.instruments[i].name,
-                        r: data.instruments[i].values[k].close,
-                        ch: data.instruments[i].values[k].close - data.instruments[i].values[k].open
-                    });
+                    if (k>0) {
+                        currentQuotes.push({
+                            s: data.instruments[i].name,
+                            r: data.instruments[i].values[k].close,
+                            ch: data.instruments[i].values[k].close - data.instruments[i].values[k].open,
+                            prevCh: data.instruments[i].values[k-1].close - data.instruments[i].values[k-1].open
+                        });
+                    }
+                    else {
+                        currentQuotes.push({
+                            s: data.instruments[i].name,
+                            r: data.instruments[i].values[k].close,
+                            ch: data.instruments[i].values[k].close - data.instruments[i].values[k].open,
+                            prevCh: data.instruments[i].values[k].close - data.instruments[i].values[k].open
+                        });
+                    }
                 }
                 dfd.resolve(currentQuotes);
                 k++;
@@ -76,20 +86,27 @@ define(function (require) {
             return this.getData();
         },
 
-        activeModel: function (activeModelIndex) {
-            instrumentChannel.vent.trigger("activeModelSetted", function (activeModelIndex) {
-                for (var i = 0; i < data.instruments.length; i++) {
-                    if (data.instruments[i].name === this.models[activeModelIndex].id) {
-                        return data.instruments[i].values;
-                    }
-                }
-            }.bind(this)(activeModelIndex));
+        activeModel: {
+            currentActiveModel: null,
+            previousActiveModel: null
         },
 
         setActiveModel: function (modelId) {
             for (var i = 0; i < this.length; i++) {
                 if (this.models[i].id === modelId) {
-                    this.activeModel(i);
+                    instrumentChannel.vent.trigger("activeModelSetted", function (activeModelIndex) {
+                        for (var j = 0; j < data.instruments.length; j++) {
+                            if (data.instruments[j].name === this.models[activeModelIndex].id) {
+                                this.activeModel.previousActiveModel = this.activeModel.currentActiveModel;
+                                this.activeModel.currentActiveModel = this.models[activeModelIndex];
+                                if (this.activeModel.previousActiveModel !== null) {
+                                    this.activeModel.previousActiveModel.trigger("setActive");
+                                }
+                                this.activeModel.currentActiveModel.trigger("setActive");
+                                return data.instruments[j].values;
+                            }
+                        }
+                    }.bind(this)(i));
                 }
             }
         }

@@ -40,5 +40,5 @@ define(function (require) {
                 this.$el.append(instrumentView.render().el);
             }
         });
-    return InstrumentCollectionView;
+            return InstrumentCollectionView;
 });

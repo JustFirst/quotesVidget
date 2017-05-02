@@ -6,7 +6,6 @@ define(function (require) {
 
             initialize: function(){
                 //this.on("change:r", this.countChange, this);
-                this.on("all", this.trackRequests, window);
                 //this.chart();
             },
 
@@ -15,7 +14,8 @@ define(function (require) {
             defaults: {
                 s: "None",
                 r: 1,
-                ch: 0
+                ch: 0,
+                prevCh: 0
             },
 
             countChange: function () {

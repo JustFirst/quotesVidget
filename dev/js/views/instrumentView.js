@@ -21,6 +21,7 @@ define(function (require) {
         },
 
         initialize: function () {
+            this.listenTo(this.model, "setActive", this.setActive);
             this.listenTo(this.model, "change:r", this.refreshRate);
             this.listenTo(this.model, "change:ch", this.refreshChange);
         },
@@ -41,6 +42,19 @@ define(function (require) {
 
         refreshChange: function () {
             this.$(".change").html(this.model.get("ch").toFixed(2));
+            if (this.model.get("ch") > this.model.get("prevCh")) {
+                this.$(".change").addClass("positive-change");
+                if (this.$(".change").hasClass("negative-change")) {
+                    this.$(".change").removeClass("negative-change");
+                }
+            }
+            else {
+                this.$(".change").addClass("negative-change");
+                if (this.$(".change").hasClass("positive-change")) {
+                    this.$(".change").removeClass("positive-change");
+                }
+            }
+
         },
 
         render: function () {
@@ -49,8 +63,15 @@ define(function (require) {
         },
 
         exportHistory: function () {
-            this.$el.addClass("active");
             instrumentChannel.vent.trigger("active", this.model.id);
+        },
+
+        setActive: function () {
+            if (this.$el.hasClass("active")) {
+                this.$el.removeClass("active");
+                return;
+            }
+            this.$el.addClass("active");
         }
     });
     return InstrumentView;

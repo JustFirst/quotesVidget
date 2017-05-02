@@ -11,9 +11,8 @@ define(function (require) {
         el: $("#chart"),
 
         initialize: function () {
-            var data =  instrumentChannel.reqres.request("exportInitialData");
-            this.renderChart(data);
-            instrumentChannel.vent.on("activeModelSetted", function (data) {this.updateChart(data);}.bind(this));
+            this.renderChart();
+            instrumentChannel.vent.on("activeModelSetted", function (data) {this.updateChartData(data);}.bind(this));
         },
 
         renderChart: function (data) {
@@ -21,67 +20,66 @@ define(function (require) {
                 values = [];
             if (data) {
                 for (var i = 1700; i < data.length; i++) {
-                    labels.push(Date.parse(data[i].date));
+                    labels.push(data[i].date);
                     values.push(data[i].close);
                 }
-                chartInstance = new Chart(this.el, {
-                    type: "line",
+            }
+            chartInstance = new Chart(this.el, {
+                type: "line",
 
-                    data: {
-                        labels: labels,
-                        datasets:[
-                            {
-                                data: values
+                data: {
+                    labels: labels,
+                    datasets:[
+                        {
+                            data: values
+                        }
+                    ]
+                },
+
+                options: {
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                min: "2017.04.18 21:00",
+                                max: "2017.04.20 22:00",
                             }
-                        ]
+                        }]
                     },
 
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                ticks: {
-                                    min: Date.parse("2017.04.18 21:00"),
-                                    max: Date.parse("2017.04.20 22:00"),
-                                }
-                            }]
-                        },
+                    pan: {
+                        enabled: true,
 
-                        pan: {
-                            enabled: true,
+                        mode: "x",
 
-                            mode: "x",
+                        speed: 1
 
-                            speed: 50
+                    },
 
-                        },
+                    zoom: {
+                        enabled : true,
 
-                        zoom: {
-                            enabled : true,
+                        mode: "x",
 
-                            mode: "x",
+                        sensitivity: 1
 
-                            sensitivity: 1
-
-                        }
                     }
-                });
-            }
+                }
+            });
         },
 
-        updateChart: function(data) {
+        updateChartData: function(data) {
             var labels = [],
                 values = [];
             for (var i = 1700; i < data.length; i++) {
                 labels.push(data[i].date);
                 values.push(data[i].close);
             }
-            chartInstance.chart.config.data.labels = labels;
-            chartInstance.chart.config.data.datasets[0].data = values;
-            chartInstance.chart.config.options.scales.xAxes[0].ticks.min = Date.parse("2017.04.18 21:00");
-            chartInstance.chart.config.options.scales.xAxes[0].ticks.max = Date.parse("2017.04.20 21:00");
+            chartInstance.data.labels = labels;
+            chartInstance.data.datasets[0].data = values;
             chartInstance.update();
-            console.log(chartInstance);
-
+            chartInstance.options.scales.xAxes[0].ticks.min = "2017.04.18 21:00";
+            chartInstance.options.scales.xAxes[0].ticks.max = "2017.04.20 21:00";
+            chartInstance.update();
         }
     });
     return ChartView;
