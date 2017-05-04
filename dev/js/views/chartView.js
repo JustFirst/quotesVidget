@@ -77,9 +77,6 @@ define(function (require) {
             chartInstance.data.labels = labels;
             chartInstance.data.datasets[0].data = values;
             chartInstance.update();
-            chartInstance.options.scales.xAxes[0].ticks.min = "2017.04.18 21:00";
-            chartInstance.options.scales.xAxes[0].ticks.max = "2017.04.20 21:00";
-            chartInstance.update();
         }
     });
     return ChartView;
