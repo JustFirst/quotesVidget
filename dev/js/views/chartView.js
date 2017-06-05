@@ -31,16 +31,30 @@ define(function (require) {
                     labels: labels,
                     datasets:[
                         {
-                            data: values
+                            data: values,
+                            lineTension: 0
                         }
                     ]
                 },
 
                 options: {
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    },
+
+                    tooltips: {
+                        intersect: false,
+                        position: "nearest",
+                        x: 100,
+                        y: 0
+                    },
+
                     scales: {
                         xAxes: [{
                             ticks: {
-                                min: "2017.04.18 21:00",
+                                min: "2017.04.10 21:00",
                                 max: "2017.04.20 22:00",
                             }
                         }]
