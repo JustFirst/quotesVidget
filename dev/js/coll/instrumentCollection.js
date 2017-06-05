@@ -25,14 +25,15 @@ define(function (require) {
             else {
                 this.options = "";
             }
-            k=0;
+            k = 500;
         },
 
         updateData: function(ajaxResult){
             if (this.length > 0) {
                 this.set(ajaxResult);
+                instrumentChannel.vent.trigger("newData", this.get(this.activeModel.currentActiveModel.id));
+                console.log(this.activeModel.currentActiveModel);
             }
-
             else {
                 this.reset(ajaxResult);
                 instrumentChannel.vent.trigger("active", this.models[0].id);
@@ -50,7 +51,8 @@ define(function (require) {
                             s: data.instruments[i].name,
                             r: data.instruments[i].values[data.instruments[i].values.length - 1].close,
                             ch: data.instruments[i].values[data.instruments[i].values.length - 1].close - data.instruments[i].values[data.instruments[i].values.length - 1].open,
-                            prevCh: data.instruments[i].values[data.instruments[i].values.length - 2].close - data.instruments[i].values[data.instruments[i].values.length - 2].open
+                            prevCh: data.instruments[i].values[data.instruments[i].values.length - 2].close - data.instruments[i].values[data.instruments[i].values.length - 2].open,
+                            date:data.instruments[i].values[data.instruments[i].values.length - 1].date
                         });
                         continue;
                     }
@@ -59,7 +61,8 @@ define(function (require) {
                             s: data.instruments[i].name,
                             r: data.instruments[i].values[k].close,
                             ch: data.instruments[i].values[k].close - data.instruments[i].values[k].open,
-                            prevCh: data.instruments[i].values[k-1].close - data.instruments[i].values[k-1].open
+                            prevCh: data.instruments[i].values[k-1].close - data.instruments[i].values[k-1].open,
+                            date:data.instruments[i].values[k].date
                         });
                     }
                     else {
@@ -67,7 +70,8 @@ define(function (require) {
                             s: data.instruments[i].name,
                             r: data.instruments[i].values[k].close,
                             ch: data.instruments[i].values[k].close - data.instruments[i].values[k].open,
-                            prevCh: data.instruments[i].values[k].close - data.instruments[i].values[k].open
+                            prevCh: data.instruments[i].values[k].close - data.instruments[i].values[k].open,
+                            date:data.instruments[i].values[k].date
                         });
                     }
                 }
@@ -103,7 +107,7 @@ define(function (require) {
                                     this.activeModel.previousActiveModel.trigger("setActive");
                                 }
                                 this.activeModel.currentActiveModel.trigger("setActive");
-                                return data.instruments[j].values;
+                                return data.instruments[j].values.slice(0, k);
                             }
                         }
                     }.bind(this)(i));

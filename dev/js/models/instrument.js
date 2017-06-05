@@ -15,7 +15,8 @@ define(function (require) {
                 s: "None",
                 r: 1,
                 ch: 0,
-                prevCh: 0
+                prevCh: 0,
+                date: ""
             },
 
             countChange: function () {

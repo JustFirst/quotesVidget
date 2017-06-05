@@ -30,6 +30,7 @@ define(function (require) {
         initialize: function () {
             this.renderChart();
             instrumentChannel.vent.on("activeModelSetted", function (data) {this.updateChartData(data);}.bind(this));
+            instrumentChannel.vent.on("newData", function (actualModel) {this.addNewDataPoint(actualModel)}.bind(this));
             chartInstance.chart.ctx.canvas.addEventListener("mousedown", function () {
                 chartInstance.chart.ctx.canvas.addEventListener("mousemove", this.yAxisAutoscale);
             }.bind(this));
@@ -66,6 +67,7 @@ define(function (require) {
                     }
                     scale.options.ticks.max = maxValue + maxValue/100;
                     scale.options.ticks.min = minValue - minValue/100;
+                    scale.options.ticks.step = (maxValue-minValue)/10;
                 }
             });
             chartInstance.update();
@@ -122,8 +124,6 @@ define(function (require) {
                     scales: {
                         xAxes: [{
                             ticks: {
-                                //min: "2017.04.18 21:00",
-                                //max: "2017.04.20 22:00",
                                 autoSkip: true,
                                 maxRotation: 0,
                                 minRotation:0
@@ -167,14 +167,27 @@ define(function (require) {
         updateChartData: function(data) {
             var labels = [],
                 values = [];
-            for (var i = 0; i < 1000; i++) {
+            for (var i = 0; i < data.length; i++) {
                 labels.push(data[i].date);
                 values.push(data[i].close);
             }
             chartInstance.data.labels = labels;
             chartInstance.data.datasets[0].data = values;
+            chartInstance.scales["x-axis-0"].options.ticks.min = labels.length > 50 ? labels[labels.length - 51] : labels[0];
+            chartInstance.scales["x-axis-0"].options.ticks.max = labels[labels.length-1];
             chartInstance.update();
             this.yAxisAutoscale();
+        },
+
+        addNewDataPoint: function (actualModel) {
+            var index;
+            chartInstance.data.labels.push(actualModel.get("date"));
+            chartInstance.data.datasets[0].data.push(actualModel.get("r"));
+            if (chartInstance.scales["x-axis-0"].options.ticks.max === chartInstance.data.labels[chartInstance.data.labels.length-2]) {
+                chartInstance.scales["x-axis-0"].options.ticks.min = chartInstance.data.labels[chartInstance.data.labels.length-51];
+                chartInstance.scales["x-axis-0"].options.ticks.max = chartInstance.data.labels[chartInstance.data.labels.length-1];
+                this.yAxisAutoscale();
+            }
         }
     });
     return ChartView;
