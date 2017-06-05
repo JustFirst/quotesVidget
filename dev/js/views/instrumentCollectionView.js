@@ -14,12 +14,6 @@ define(function (require) {
                 if ( symbols !== null) {
                     return {symbols:symbols[1]};
                 }
-                /*
-                else
-                {
-                    return {symbols:"EURUSD,GBPUSD,AUDNZD,EURJPY"};
-                }
-                */
             },
 
             initialize: function() {

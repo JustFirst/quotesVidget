@@ -2,14 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-
     <title></title>
     <link rel="stylesheet" type="text/css" href="less/normalize.css">
     <link rel="stylesheet" type="text/css" href="less/styles.css">
 
-
 </head>
-
 <body>
 <script type="text/template" id="toggle-template">
     <div class="toggle">
@@ -23,13 +20,11 @@
             <%=instrument.s%>
         </span>
     </div>
-
     <div class="rate row-content">
         <span class="span-value">
             <%=instrument.r%>
         </span>
     </div>
-
     <div class="change row-content">
         <span class="span-value">
             <%=instrument.ch%>
@@ -38,44 +33,32 @@
 </script>
 <div class="content">
     <div class="quotes-container">
-
         <div class="row tool-box-header">
             <div class="alias alias-header row-content">
                     <span class="header-span">
                         Instrument
                     </span>
             </div>
-
             <div class="rate quote-header row-content">
                     <span class="span-value header-span">
                         Price
                     </span>
             </div>
-
             <div class="change incr-header row-content">
                     <span class="span-value header-span">
                         Change
                     </span>
             </div>
-
         </div>
         <div class="tool-box">
-
         </div>
     </div>
-
     <div class="graph">
         <canvas id="chart" width="800" height="500">
 
         </canvas>
     </div>
 </div>
-
-
-
 <script data-main ="js/main" src="js/lib/require.js"></script>
-
-
-
 </body>
 </html>

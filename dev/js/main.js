@@ -8,10 +8,15 @@ requirejs.config({
         underscore: "lib/underscore-min",
         backbone: "lib/backbone-min",
         wreqr: "lib/backbone.wreqr",
-        hammerjs: "lib/hammer.min"
+        hammerjs: "lib/hammer.min",
+        moment: "lib/moment.min"
     },
 
     shim: {
+        chartjs: {
+            deps: ["lib/moment-fix"]
+        },
+
         zoomPlugin: {
             deps: ["chartjs", "hammerjs"]
         }

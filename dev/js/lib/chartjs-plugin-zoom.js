@@ -230,7 +230,6 @@ define(function (rquire, exports, module) {
     				panScale(scale, deltaY, panOptions);
     			}
     		});
-
     		chartInstance.update(0);
     	}
     }
