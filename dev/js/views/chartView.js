@@ -8,7 +8,7 @@ define(function (require) {
         Wreqr = require("wreqr"),
         instrumentChannel = Wreqr.radio.channel("instrument");
     Chart.pluginService.register({
-        beforeDraw: function (chart, easing) {
+        beforeDraw: function (chart) {
             if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
                 var helpers = Chart.helpers;
                 var ctx = chart.chart.ctx;
@@ -24,13 +24,10 @@ define(function (require) {
     var ChartView = Backbone.View.extend({
         el: $("#chart"),
 
-        events: {
-        },
-
         initialize: function () {
             this.renderChart();
             instrumentChannel.vent.on("activeModelSetted", function (data) {this.updateChartData(data);}.bind(this));
-            instrumentChannel.vent.on("newData", function (actualModel) {this.addNewDataPoint(actualModel)}.bind(this));
+            instrumentChannel.vent.on("newData", function (actualModel) {this.addNewDataPoint(actualModel);}.bind(this));
             chartInstance.chart.ctx.canvas.addEventListener("mousedown", function (event) {
                 chartInstance.chart.ctx.canvas.addEventListener("mousemove", this.yAxisAutoscale);
                 event.preventDefault();
@@ -38,6 +35,7 @@ define(function (require) {
             document.addEventListener("mouseup", function () {
                 chartInstance.chart.ctx.canvas.removeEventListener("mousemove", this.yAxisAutoscale);
             }.bind(this));
+            chartInstance.chart.ctx.canvas.addEventListener("wheel", this.yAxisAutoscale);
         },
 
         yAxisAutoscale: function () {
@@ -74,29 +72,21 @@ define(function (require) {
             chartInstance.update();
         },
 
-        renderChart: function (data) {
+        renderChart: function () {
             var labels = [],
                 values = [];
-            if (data) {
-                for (var i = 1700; i < data.length; i++) {
-                    labels.push(data[i].date);
-                    values.push(data[i].close);
-                }
-            }
             chartInstance = new Chart(this.el, {
                 type: "line",
 
                 data: {
                     labels: labels,
-                    datasets:[
-                        {
-                            backgroundColor: "rgba(126, 152, 229, 0.6)",
-                            borderColor: "rgba(126, 152, 229, 1.0)",
-                            borderWidth: 1,
-                            data: values,
-                            lineTension: 0
-                        }
-                    ]
+                    datasets:[{
+                        backgroundColor: "rgba(126, 152, 229, 0.6)",
+                        borderColor: "rgba(126, 152, 229, 1.0)",
+                        borderWidth: 2,
+                        data: values,
+                        lineTension: 0
+                    }]
                 },
 
                 options: {
@@ -151,7 +141,7 @@ define(function (require) {
 
                         mode: "x",
 
-                        speed: 50
+                        speed: 1000
 
                     },
 
@@ -160,7 +150,7 @@ define(function (require) {
 
                         mode: "x",
 
-                        sensitivity: 1
+                        sensitivity: 0.1
 
                     }
                 }

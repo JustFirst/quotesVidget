@@ -14,6 +14,11 @@ define(function (require) {
 
         model: InstrumentModel,
 
+        activeModel: {
+            currentActiveModel: null,
+            previousActiveModel: null
+        },
+        
         initialize: function (models, options) {
             instrumentChannel.vent.on("active", function (modelId) {
                 this.setActiveModel(modelId);
@@ -89,11 +94,6 @@ define(function (require) {
                 }
             }
             return this.getData();
-        },
-
-        activeModel: {
-            currentActiveModel: null,
-            previousActiveModel: null
         },
 
         setActiveModel: function (modelId) {
