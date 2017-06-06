@@ -31,8 +31,9 @@ define(function (require) {
         updateData: function(ajaxResult){
             if (this.length > 0) {
                 this.set(ajaxResult);
-                instrumentChannel.vent.trigger("newData", this.get(this.activeModel.currentActiveModel.id));
-                console.log(this.activeModel.currentActiveModel);
+                if (this.get(this.activeModel.currentActiveModel.id).hasChanged()) {
+                    instrumentChannel.vent.trigger("newData", this.get(this.activeModel.currentActiveModel.id));
+                }
             }
             else {
                 this.reset(ajaxResult);

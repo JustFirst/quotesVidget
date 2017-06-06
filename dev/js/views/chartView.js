@@ -31,8 +31,9 @@ define(function (require) {
             this.renderChart();
             instrumentChannel.vent.on("activeModelSetted", function (data) {this.updateChartData(data);}.bind(this));
             instrumentChannel.vent.on("newData", function (actualModel) {this.addNewDataPoint(actualModel)}.bind(this));
-            chartInstance.chart.ctx.canvas.addEventListener("mousedown", function () {
+            chartInstance.chart.ctx.canvas.addEventListener("mousedown", function (event) {
                 chartInstance.chart.ctx.canvas.addEventListener("mousemove", this.yAxisAutoscale);
+                event.preventDefault();
             }.bind(this));
             document.addEventListener("mouseup", function () {
                 chartInstance.chart.ctx.canvas.removeEventListener("mousemove", this.yAxisAutoscale);
@@ -67,7 +68,7 @@ define(function (require) {
                     }
                     scale.options.ticks.max = maxValue + maxValue/100;
                     scale.options.ticks.min = minValue - minValue/100;
-                    scale.options.ticks.step = (maxValue-minValue)/10;
+                    scale.options.ticks.stepSize = (scale.options.ticks.max-scale.options.ticks.min)/10;
                 }
             });
             chartInstance.update();
@@ -104,8 +105,7 @@ define(function (require) {
                     },
 
                     chartArea: {
-                        backgroundColor: "rgba(47, 48, 49, 1.0)",
-                        top: 0
+                        backgroundColor: "rgba(47, 48, 49, 1.0)"
                     },
 
                     elements: {
@@ -126,7 +126,10 @@ define(function (require) {
                             ticks: {
                                 autoSkip: true,
                                 maxRotation: 0,
-                                minRotation:0
+                                minRotation:0,
+                                callback: function (label) {
+                                    return label.substring(label.indexOf(" "), label.length);
+                                }
                             },
 
                             gridLines: {
@@ -148,7 +151,7 @@ define(function (require) {
 
                         mode: "x",
 
-                        speed: 10
+                        speed: 50
 
                     },
 
@@ -173,18 +176,17 @@ define(function (require) {
             }
             chartInstance.data.labels = labels;
             chartInstance.data.datasets[0].data = values;
-            chartInstance.scales["x-axis-0"].options.ticks.min = labels.length > 50 ? labels[labels.length - 51] : labels[0];
-            chartInstance.scales["x-axis-0"].options.ticks.max = labels[labels.length-1];
+            chartInstance.scales["x-axis-0"].options.ticks.min = chartInstance.data.labels.length > 50 ? chartInstance.data.labels[chartInstance.data.labels.length - 51] : chartInstance.data.labels[0];
+            chartInstance.scales["x-axis-0"].options.ticks.max = chartInstance.data.labels[chartInstance.data.labels.length-1];
             chartInstance.update();
             this.yAxisAutoscale();
         },
 
         addNewDataPoint: function (actualModel) {
-            var index;
             chartInstance.data.labels.push(actualModel.get("date"));
             chartInstance.data.datasets[0].data.push(actualModel.get("r"));
             if (chartInstance.scales["x-axis-0"].options.ticks.max === chartInstance.data.labels[chartInstance.data.labels.length-2]) {
-                chartInstance.scales["x-axis-0"].options.ticks.min = chartInstance.data.labels[chartInstance.data.labels.length-51];
+                chartInstance.scales["x-axis-0"].options.ticks.min = chartInstance.data.labels[chartInstance.data.labels.indexOf(chartInstance.scales["x-axis-0"].options.ticks.min)+1];
                 chartInstance.scales["x-axis-0"].options.ticks.max = chartInstance.data.labels[chartInstance.data.labels.length-1];
                 this.yAxisAutoscale();
             }

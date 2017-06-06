@@ -59,6 +59,8 @@ define(function (require) {
 
         render: function () {
             this.$el.append(this.template(this.model.toJSON()), {variable:"instrument"});
+            this.refreshRate();
+            this.refreshChange();
             return this;
         },
 
