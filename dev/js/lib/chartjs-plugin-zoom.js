@@ -210,6 +210,26 @@ define(function (rquire, exports, module) {
     	}
     }
 
+    function panTimeseriesScale(scale, delta, panOptions) {
+        var labels = scale.getLabels();
+    	var lastLabelIndex = labels.length - 1;
+    	var offsetAmt = scale.ticks.length;
+    	var panSpeed = panOptions.speed;
+    	var minIndex = scale.minIndex;
+    	var step = Math.round(scale.width / (offsetAmt * panSpeed));
+    	var maxIndex;
+
+    	zoomNS.panCumulativeDelta += delta;
+
+    	minIndex = zoomNS.panCumulativeDelta > step ? Math.max(0, minIndex -1) : zoomNS.panCumulativeDelta < -step ? Math.min(lastLabelIndex - offsetAmt + 1, minIndex + 1) : minIndex;
+    	zoomNS.panCumulativeDelta = minIndex !== scale.minIndex ? 0 : zoomNS.panCumulativeDelta;
+
+    	maxIndex = Math.min(lastLabelIndex, minIndex + offsetAmt - 1);
+
+    	scale.options.ticks.min = labels[minIndex];
+    	scale.options.ticks.max = labels[maxIndex];
+    }
+
     function panScale(scale, delta, panOptions) {
     	var fn = panFunctions[scale.options.type];
     	if (fn) {
@@ -260,6 +280,7 @@ define(function (rquire, exports, module) {
     zoomNS.panFunctions.time = panTimeScale;
     zoomNS.panFunctions.linear = panNumericalScale;
     zoomNS.panFunctions.logarithmic = panNumericalScale;
+    zoomNS.panFunctions.timeseries = panTimeseriesScale;
     // Globals for catergory pan and zoom
     zoomNS.panCumulativeDelta = 0;
     zoomNS.zoomCumulativeDelta = 0;

@@ -24,10 +24,13 @@ requirejs.config({
 });
 
 define(function (require){
+    require("lib/chartjs-chart-financial-master/src/element.candlestick");
+    require("lib/chartjs-chart-financial-master/src/scale.financialLinear");
+    require("lib/chartjs-chart-financial-master/src/scale.timeseries");
+    require("lib/chartjs-chart-financial-master/src/controller.financial");
     var InstrumentCollectionView = require("views/InstrumentCollectionView"),
         ChartInstane = require("views/chartView"),
         view = new InstrumentCollectionView();
-
 
     view.collection.checkRequest().then(function(data) {
         view.collection.updateData(data);
